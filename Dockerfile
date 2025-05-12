@@ -15,22 +15,22 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# 環境変数設定（まとめて記述）
+# 環境変数設定
 ENV LANG=ja_JP.UTF-8 \
     LANGUAGE=ja_JP:ja \
     LC_ALL=ja_JP.UTF-8 \
     TZ=Asia/Tokyo \
     TERM=xterm
 
-# 依存関係インストール
+# Python依存ライブラリのインストール
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# アプリ本体コピー
+# プロジェクト全体コピー
 COPY . .
 
-# ポート開放
+# FastAPIサーバー用にポート開放
 EXPOSE 8080
 
-# 実行コマンド（exec形式推奨）
+# アプリの実行（main.pyがBotとFastAPIサーバーを両方起動）
 CMD ["python", "app/main.py"]
